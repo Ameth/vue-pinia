@@ -13,10 +13,7 @@ const channelsStore = useChanelsStore();
 
 const search = ref("");
 
-const { username } = storeToRefs(profileStore);
-const avatar = ref("/avatars/avatar-02.jpg");
-const status = ref("active");
-const role = ref("Admin");
+const { username, avatar, status } = storeToRefs(profileStore);
 const { channels, getChannels } = storeToRefs(channelsStore);
 </script>
 

@@ -119,5 +119,16 @@ export const useMessagesStore = defineStore("messages", () => {
     };
   });
 
-  return { messages, getMessages, getUnread };
+  const addMessage = (newMessage) => {
+    messages.value.push({
+      id: Date.now(),
+      author: 1,
+      message: newMessage.message,
+      timestamp: new Date().toLocaleTimeString(),
+      read: false,
+      channelId: parseInt(newMessage.channelId),
+    });
+  };
+
+  return { messages, getMessages, getUnread, addMessage };
 });

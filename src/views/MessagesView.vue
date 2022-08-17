@@ -22,6 +22,7 @@ const channelId = ref(null);
 const { getChannelsById } = storeToRefs(channels);
 const { getMessages } = storeToRefs(messages);
 const { getContactById } = storeToRefs(contacts);
+const { addMessage } = messages;
 
 const scrollToBottom = () => {
   end?.value?.scrollIntoView({
@@ -34,12 +35,14 @@ const scrollToBottom = () => {
 // const getContactById = computed(() => store.getters["contacts/getContactById"]);
 
 const sendMessage = () => {
-  store.commit("messages/addMessage", {
+  // console.log(newMessage.value.length);
+  addMessage({
     message: newMessage.value,
     channelId: channelId.value,
   });
   newMessage.value = "";
-  // scrollToBottom();
+
+  scrollToBottom();
 };
 
 // console.log(getMessages.value);
@@ -63,8 +66,11 @@ const messagesView = computed(() => {
 watchEffect(() => {
   // console.log(route.params.id);
   channelId.value = route.params.id;
-  // console.log(name);
-  title.value = getChannelsById.value(channelId.value);
+  // console.log(channelId.value);
+  if (route.params.id) {
+    title.value = getChannelsById.value(channelId.value);
+  }
+
   scrollToBottom();
 });
 </script>
