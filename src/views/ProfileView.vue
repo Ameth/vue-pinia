@@ -3,35 +3,33 @@
     <div class="box">
       <img src="/avatars/avatar.jpg" alt="avatar" />
       <label for="username">Nombre de usuario</label>
-      <input
-        type="text"
-        placeholder="Jane Smith"
-        :value="username"
-        @input="actualizar($event.target.value)"
-      />
-      <input
+      <input type="text" placeholder="Jane Smith" v-model="username" />
+      <!-- <input
         type="text"
         placeholder="Admin"
         :value="role"
         @input="actualizarRole($event.target.value)"
-      />
+      /> -->
       <button @click="$router.push('/')">Acceder</button>
-      <button @click="obtenerUser">Generar role</button>
+      <!-- <button @click="obtenerUser">Generar role</button> -->
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed } from "vue";
-import { useStore } from "vuex";
-const store = useStore();
+import { useProfileStore } from "@/stores/profile";
+import { storeToRefs } from "pinia";
 
-const username = computed(() => store.state.profile.username);
-const role = computed(() => store.state.role);
+const profileStore = useProfileStore();
 
-const actualizar = (value) => store.commit("profile/updateUsername", value);
-const actualizarRole = (value) => store.commit("updateRole", value);
-const obtenerUser = () => store.dispatch("obtenerUsername");
+const { username } = storeToRefs(profileStore);
+// const username2 = profileStore.username;
+// const role = computed(() => store.state.role);
+
+// const actualizar = (value) => store.commit("profile/updateUsername", value);
+// const actualizarRole = (value) => store.commit("updateRole", value);
+// const obtenerUser = () => store.dispatch("obtenerUsername");
 </script>
 
 <style lang="scss" scoped>

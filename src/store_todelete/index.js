@@ -1,11 +1,11 @@
-import { createStore } from "vuex";
+import { defineStore } from "pinia";
 import { getUser } from "@/api";
 import { profile } from "./modules/profile";
 import { channels } from "./modules/channels";
 import { messages } from "./modules/messages";
 import { contacts } from "./modules/contacts";
 
-const store = createStore({
+const store = defineStore({
   state() {
     return {
       role: "Admin",

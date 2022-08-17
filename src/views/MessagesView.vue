@@ -2,9 +2,15 @@
 import { ref, computed, watchEffect, onMounted } from "vue";
 import MessageItem from "@/components/MessageItem.vue";
 import { useRoute } from "vue-router";
-import { useStore } from "vuex";
+import { useMessagesStore } from "@/stores/messages";
+import { useChanelsStore } from "@/stores/channels";
+import { useContactsStore } from "@/stores/contacts";
+import { storeToRefs } from "pinia";
 
-const store = useStore();
+const messages = useMessagesStore();
+const channels = useChanelsStore();
+const contacts = useContactsStore();
+
 const route = useRoute();
 const end = ref(null);
 
@@ -13,15 +19,19 @@ const newMessage = ref("");
 
 const channelId = ref(null);
 
+const { getChannelsById } = storeToRefs(channels);
+const { getMessages } = storeToRefs(messages);
+const { getContactById } = storeToRefs(contacts);
+
 const scrollToBottom = () => {
   end?.value?.scrollIntoView({
     behavior: "smooth",
   });
 };
 
-const getChannelById = computed(() => store.getters["channels/getChannelById"]);
-const getMessages = computed(() => store.getters["messages/getMessages"]);
-const getContactById = computed(() => store.getters["contacts/getContactById"]);
+// const getChannelById = computed(() => store.getters["channels/getChannelById"]);
+// const getMessages = computed(() => store.getters["messages/getMessages"]);
+// const getContactById = computed(() => store.getters["contacts/getContactById"]);
 
 const sendMessage = () => {
   store.commit("messages/addMessage", {
@@ -35,7 +45,7 @@ const sendMessage = () => {
 // console.log(getMessages.value);
 
 const messagesView = computed(() => {
-  return getMessages.value(channelId.value)?.map((message) => {
+  return getMessages.value(channelId.value).map((message) => {
     const author = getContactById.value(message.author);
     if (!author) return message;
     return {
@@ -54,7 +64,7 @@ watchEffect(() => {
   // console.log(route.params.id);
   channelId.value = route.params.id;
   // console.log(name);
-  title.value = getChannelById.value(channelId.value);
+  title.value = getChannelsById.value(channelId.value);
   scrollToBottom();
 });
 </script>

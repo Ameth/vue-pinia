@@ -1,14 +1,15 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import './index.css'
-import { Icon } from '@iconify/vue';
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import { createPinia } from "pinia";
+import "./index.css";
+import { Icon } from "@iconify/vue";
 
-const app = createApp(App)
+const pinia = createPinia();
+const app = createApp(App);
 
-app.use(router)
-app.use(store)
-app.component("Icon", Icon)
+app.use(router);
+app.use(pinia);
+app.component("Icon", Icon);
 
-app.mount('#app')
+app.mount("#app");

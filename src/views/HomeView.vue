@@ -4,19 +4,20 @@ import { RouterView, RouterLink } from "vue-router";
 import InputSearch from "@/components/InputSearch.vue";
 import ProfileCard from "@/components/ProfileCard.vue";
 import ChatItem from "@/components/ChatItem.vue";
-// import store from "@/store/store.js";
-import { mapState } from "vuex";
-import { useStore } from "vuex";
+import { useProfileStore } from "@/stores/profile";
+import { useChanelsStore } from "@/stores/channels";
+import { storeToRefs } from "pinia";
 
-const store = useStore();
+const profileStore = useProfileStore();
+const channelsStore = useChanelsStore();
 
 const search = ref("");
 
-const username = computed(() => store.state.profile.username);
-const avatar = computed(() => store.state.profile.avatar);
-const status = computed(() => store.state.status);
-const role = computed(() => store.state.role);
-const channels = computed(() => store.getters["channels/getChannels"]);
+const { username } = storeToRefs(profileStore);
+const avatar = ref("/avatars/avatar-02.jpg");
+const status = ref("active");
+const role = ref("Admin");
+const { channels, getChannels } = storeToRefs(channelsStore);
 </script>
 
 <template>
@@ -29,7 +30,7 @@ const channels = computed(() => store.getters["channels/getChannels"]);
       /></RouterLink>
       <div class="channels">
         <ChatItem
-          v-for="channel in channels(search)"
+          v-for="channel in getChannels(search)"
           :key="channel.id"
           :id="channel.id"
           :name="channel.name"
